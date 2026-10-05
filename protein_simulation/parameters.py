@@ -43,3 +43,38 @@ def per_track(value, count, name, integer=False):
     if integer and not np.equal(raw, np.floor(raw)).all():
         raise ValueError(f"{name} must contain integer counts")
     return raw.astype(int) if integer else raw
+
+
+@dataclass(frozen=True)
+class ModelRules:
+    protect_occupied_sites: bool = True
+    run_length_mode: str = "on_dependent"
+    fixed_run_steps: int = 357
+    permanent_site_placement: str = "upstream"
+    permanent_position_sd_fraction: float = 0.3
+
+
+@dataclass(frozen=True)
+class FluorescenceSettings:
+    fractional_half_range: float = 0.1
+
+
+@dataclass
+class PopulationFluorescence:
+    motor_brightness: np.ndarray
+    track_brightness: np.ndarray
+
+
+def sample_population_fluorescence(v: Variables, settings: RunSettings,
+                                   fluorescence: FluorescenceSettings = FluorescenceSettings()):
+    """Intrinsic relative fluorescence, sampled once per ID on a separate RNG stream."""
+    width = fluorescence.fractional_half_range
+    if not np.isfinite(width) or not 0 <= width <= 1:
+        raise ValueError("Fluorescence fractional_half_range must lie in [0, 1]")
+    if not all(np.isfinite(x) and x >= 0 for x in (v.motor_brightness, v.track_brightness)):
+        raise ValueError("Population mean brightness must be finite and nonnegative")
+    rng = np.random.default_rng([settings.random_seed, 947])
+    return PopulationFluorescence(
+        v.motor_brightness * rng.uniform(1 - width, 1 + width, v.number_motors),
+        v.track_brightness * rng.uniform(1 - width, 1 + width, v.number_tracks),
+    )

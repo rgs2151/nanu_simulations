@@ -1,9 +1,9 @@
-"""Single baseline engine: upstream permanent clusters, protected occupied sites."""
+"""Shared transport engine with explicit, independently selectable model rules."""
 from dataclasses import dataclass
 
 import numpy as np
 
-from .parameters import RunSettings, Variables, per_track
+from .parameters import ModelRules, RunSettings, Variables, per_track
 
 
 @dataclass
@@ -28,13 +28,24 @@ def binding_probability(n_temporary, n_permanent, p_temporary, p_permanent):
     return 1.0 - (1.0 - p_temporary) ** n_temporary * (1.0 - p_permanent) ** n_permanent
 
 
-def simulate(v: Variables, settings: RunSettings = RunSettings(), layout=None) -> Result:
+def simulate(v: Variables, settings: RunSettings = RunSettings(), layout=None,
+             rules: ModelRules = ModelRules()) -> Result:
     """Simulate using a supplied layout/RNG continuation, or generate a new layout.
 
     Track length is the distance between the first and last binding sites.
     A supplied layout contains starts, directions, and the RNG state immediately
     after track generation. It is used for exact notebook-baseline reproduction.
     """
+    if not isinstance(rules.protect_occupied_sites, bool):
+        raise ValueError("protect_occupied_sites must be a boolean")
+    if rules.run_length_mode not in ("on_dependent", "fixed_steps"):
+        raise ValueError("Unknown run-length mode")
+    if rules.permanent_site_placement not in ("upstream", "random_normal"):
+        raise ValueError("Unknown permanent-site placement")
+    if not isinstance(rules.fixed_run_steps, int) or rules.fixed_run_steps < 1:
+        raise ValueError("fixed_run_steps must be a positive integer")
+    if not np.isfinite(rules.permanent_position_sd_fraction) or rules.permanent_position_sd_fraction <= 0:
+        raise ValueError("Permanent-position SD must be positive and finite")
     if not isinstance(v.number_tracks, int) or v.number_tracks < 1:
         raise ValueError("number_tracks must be a positive integer")
     if not isinstance(v.number_motors, int) or v.number_motors < 0:
@@ -70,7 +81,7 @@ def simulate(v: Variables, settings: RunSettings = RunSettings(), layout=None) -
     p_cut = v.cutter_concentration * settings.erasure_rate_per_concentration_s * settings.time_step_s
     if (p_step > 0.6).any() or p_search > 1 or p_cut > 1:
         raise ValueError("Reduce time_step_s: walking probability must be <=0.6; other event probabilities <=1")
-    if (p_leave / settings.minimum_on_fraction > 1).any():
+    if rules.run_length_mode == "on_dependent" and (p_leave / settings.minimum_on_fraction > 1).any():
         raise ValueError("Run length is too short for this site spacing and ON-density floor")
     for value, name in ((settings.duration_s, "duration_s"), (settings.sample_interval_s, "sample_interval_s")):
         ratio = value / settings.time_step_s
@@ -112,11 +123,19 @@ def simulate(v: Variables, settings: RunSettings = RunSettings(), layout=None) -
     on = np.zeros(total, dtype=bool)
     occupied = np.zeros(total, dtype=np.int32)
     permanent = np.zeros(total, dtype=bool)
+    # Site placement never advances the dynamics RNG beyond the original seeding draw.
+    placement_rng = np.random.default_rng([settings.random_seed, 173])
     # Preserve the professor's seeding draw, even though every track is seeded.
     for j in rng.permutation(v.number_tracks):
-        sl = slice(offsets[j], offsets[j] + permanent_counts[j])
-        on[sl] = True
-        permanent[sl] = True
+        if rules.permanent_site_placement == "upstream":
+            indices = np.arange(permanent_counts[j])
+        else:
+            x = np.arange(ns[j]) / (ns[j] - 1)
+            weights = np.exp(-0.5 * ((x - 0.5) / rules.permanent_position_sd_fraction) ** 2)
+            weights /= weights.sum()
+            indices = placement_rng.choice(ns[j], size=permanent_counts[j], replace=False, p=weights)
+        on[offsets[j] + indices] = True
+        permanent[offsets[j] + indices] = True
     track = np.full(v.number_motors, -1, dtype=np.int32)
     position = np.zeros(v.number_motors, dtype=np.int32)
     binding_position = np.zeros(v.number_motors, dtype=np.int32)
@@ -177,12 +196,17 @@ def simulate(v: Variables, settings: RunSettings = RunSettings(), layout=None) -
                 position[i] = pos + 1
                 if rng.random() < v.writing_probability:
                     on[gl] = True
-                f = on[gl - body[j] + 1:gl + 1].sum() / body[j]
-                if rng.random() < p_leave[j] / max(f, settings.minimum_on_fraction):
-                    detach(i)
+                if rules.run_length_mode == "fixed_steps":
+                    if position[i] - binding_position[i] >= rules.fixed_run_steps:
+                        detach(i)
+                else:
+                    f = on[gl - body[j] + 1:gl + 1].sum() / body[j]
+                    if rng.random() < p_leave[j] / max(f, settings.minimum_on_fraction):
+                        detach(i)
         eligible = np.flatnonzero(on & ~permanent)
         if eligible.size:
-            eligible = eligible[occupied[eligible] == 0]
+            if rules.protect_occupied_sites:
+                eligible = eligible[occupied[eligible] == 0]
             if eligible.size:
                 on[eligible[rng.random(eligible.size) < p_cut]] = False
     return Result(starts, directions, lengths, ns, offsets, spacing, body, permanent,
