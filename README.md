@@ -2,7 +2,7 @@
 
 Research workspace for protein and molecular motor simulations, with reproducible analysis units and figure outputs.
 
-The Python package is **Protein Simulation**: installable as `protein-simulation`, imported as `protein_simulation`. The professor’s DNA-rail transport notebook is preserved in `ref/`; see [the reference guide](ref/README.md) for its model, saved outputs, and limitations. No research dataset has been supplied.
+The Python package is **Protein Simulation**: installable as `protein-simulation`, imported as `protein_simulation`. The professor’s DNA-rail transport baseline is implemented in the shared package with 14 scientific controls. See [the baseline unit](parking/baseline_simulation/README.md) for the variable mapping, GIFs, and exact reference comparison. The original notebook remains unchanged in `ref/`. No experimental dataset has been supplied.
 
 ## Setup
 
@@ -23,7 +23,15 @@ python -m pip install -e .
 
 Exploratory compact units live in `parking/`; finalized units graduate to `figs/`. Each unit owns its code, README, local `cache/`, and tracked `plots/` outputs. Caption drafts belong in that unit's `caption.md`.
 
-The first unit records the installed environment as a version inventory:
+Reproduce the baseline and its comparison GIF:
+
+```bash
+python parking/baseline_simulation/baseline_simulation.py --verify-reference
+```
+
+Edit scientific values in `parking/baseline_simulation/baseline.json`. Changed dynamics require `--recompute`; changed values should omit `--verify-reference`, which is reserved for the original preset. See the unit README for concentration calibration, track/site definitions, and cache rules.
+
+An environment diagnostic records installed versions:
 
 ```bash
 python parking/environment_inventory/environment_inventory.py

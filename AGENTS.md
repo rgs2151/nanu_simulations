@@ -25,7 +25,8 @@
 # Code Placement
 
 - `protein_simulation/` is the installable project package for shared helpers used by `parking/`, `figs/`, and `debug/`.
-- Put only genuinely shared, analysis-neutral helpers in `protein_simulation/`.
+- Put shared simulation dynamics, scientific parameter definitions, and analysis-neutral helpers in `protein_simulation/`.
+- Maintain one core simulation engine; future conditions must reuse it rather than copy simulation loops. Implement new model conditions only when requested.
 - Keep figure-specific and analysis-specific functions inside the compact unit that owns the figure or analysis.
 - Do not create or expand broad figure-function dumps outside the owning unit.
 - Active work must not contain `_legacy.py`, `_figure_functions.py`, or similar holding files.

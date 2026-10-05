@@ -10,6 +10,7 @@ dependencies:
   - matplotlib
   - numpy
   - pandas
+  - pillow
   - pip
   - scikit-learn
   - scipy

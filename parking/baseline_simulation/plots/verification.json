@@ -1,0 +1,28 @@
+{
+  "reference_checked": true,
+  "exact_match": true,
+  "array_checks": {
+    "starts": true,
+    "directions": true,
+    "lengths": true,
+    "site_counts": true,
+    "offsets": true,
+    "spacing": true,
+    "body_sites": true,
+    "permanent": true,
+    "times": true,
+    "on": true,
+    "motor_track": true,
+    "motor_position": true,
+    "run_lengths": true
+  },
+  "notebook_sha256": "2958efc7f03d1760a0524c4d6037e1b61935446d7c05bd46336f7d97f52ae491",
+  "snapshot_count": 81,
+  "site_count": 49333,
+  "completed_runs": 1030,
+  "mean_completed_run_um": 5.81002718446602,
+  "median_completed_run_um": 5.194000000000001,
+  "final_low_tracks": 18,
+  "final_high_tracks": 23,
+  "final_intermediate_tracks": 9
+}

@@ -32,10 +32,11 @@
 
 ## Python Package
 
-`protein_simulation/` is the minimal installable package for reusable project helpers.
+`protein_simulation/` owns the shared simulation engine, scientific parameter definitions, and reusable project helpers.
 
 - The package is intended for editable installs from this source checkout.
 - Do not package `data/`, caches, plots, notebooks, or historical references as package data.
+- Shared dynamics and scientific controls live in the package as one source of truth. Condition-specific runners and plots live in their owning compact units.
 - Shared helpers should be useful across `parking/`, `figs/`, and `debug/`.
 - Keep figure-specific calculations, plotting functions, and panel logic inside the compact unit that owns them.
 - Do not move unit logic into a shared file just to shorten a unit script.
