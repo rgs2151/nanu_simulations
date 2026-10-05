@@ -1,4 +1,4 @@
-"""Seven descriptive panels with fixed project-wide condition colors."""
+"""Six descriptive panels with fixed project-wide condition colors."""
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -15,14 +15,13 @@ PANELS = (
     ('dark_tracks', 'Dark tracks', 'Tracks (count)'),
     ('dark_to_lit_s', 'Time for a dark track to light up', 'Dark-to-lit time (s)'),
     ('motor_dwell_s', 'Motor dwell time on a track', 'Dwell time (s)'),
-    ('longest_lit_segment_um', 'Longest lit path', 'Within-track length (µm)'),
 )
 LINESTYLES = {name: '-' for name in CONDITION_COLORS}
 
 
 def render(folder, times, summaries, number_tracks):
     apply_plot_style()
-    fig, axes = plt.subplots(3, 3, figsize=(14, 12))
+    fig, axes = plt.subplots(2, 3, figsize=(14, 8))
     fig.subplots_adjust(left=.085, right=.975, bottom=.07, top=.91, wspace=.46, hspace=.55)
     handles = [Line2D([], [], color=CONDITION_COLORS[name], lw=2, linestyle=LINESTYLES[name],
                       label=CONDITION_LABELS[name]) for name in CONDITION_COLORS]
@@ -53,8 +52,6 @@ def render(folder, times, summaries, number_tracks):
         ax.yaxis.set_major_locator(MaxNLocator(nbins=5, integer=key in ('lit_tracks', 'dark_tracks')))
         ax.set_box_aspect(0.78)
         ax.text(-.20, 1.12, chr(ord('A') + idx), transform=ax.transAxes, fontsize=13, weight='bold')
-    for ax in axes.flat[7:]:
-        ax.set_visible(False)
     fig.savefig(folder / 'conditions_analysis.pdf', bbox_inches='tight')
     fig.savefig(folder / 'conditions_analysis.png', dpi=180, bbox_inches='tight')
     plt.close(fig)

@@ -3,7 +3,7 @@
 ## Method
 
 - Read the four single-realization caches owned by `../conditions/`; keep this analysis, its derived caches, and its outputs in this separate unit. No condition simulation cache or existing GIF is overwritten.
-- Use the same 81 snapshot times, 0–16,000 s at 200 s intervals, for all seven displayed metrics. Permanent sites count as ON in the fractions and connectivity calculations.
+- Use the same 81 snapshot times, 0–16,000 s at 200 s intervals, for all six displayed metrics. Permanent sites count as ON in the fractions and connectivity calculations.
 - The original animation caches do not identify binding/release events between snapshots. `record_events.py` replays each original seed/initialization once through the shared engine with observation callbacks. It records track ON counts and individual binding/release events at the 0.5 s integration resolution, then requires exact equality of every original result array before accepting the new event cache. This is instrumentation of the existing realization, not an independent replicate.
 - Define dark as total ON fraction strictly below 0.05 and lit as total ON fraction strictly above 0.40, following the user-selected professor thresholds. A track exactly at either threshold, or between them, is intermediate and counted as neither lit nor dark.
 - Compute the panels as follows:
@@ -16,11 +16,11 @@
 | D | Dark tracks | Count of tracks with total ON fraction <0.05. Intermediate tracks are neither C nor D. |
 | E | Time for a dark track to light up | Cumulative mean duration of completed dark-to-lit passages by each plotted time. A passage starts on entry below 0.05 and ends on first entry above 0.40. Time spent intermediate counts toward the passage; intermediate-to-dark returns do not restart it. A new passage can start after the track has become lit and later becomes dark again. |
 | F | Motor dwell time on a track | Cumulative mean binding-to-release duration among motor residence episodes completed by each plotted time, including time stalled by exclusion. Release at a track end also completes an episode. Rebinding, including to the same track, starts a new episode. |
-| G | Longest lit path | Maximum physical first-to-last-site span of any contiguous ON-site run within one track at the snapshot. Inspect tracks separately; crossing tracks and neighboring flattened array blocks are not connected. |
+| Historical G (not plotted) | Longest lit path | Maximum physical first-to-last-site span of any contiguous ON-site run within one track at the snapshot. Inspect tracks separately; crossing tracks and neighboring flattened array blocks are not connected. |
 
 - For E and F, ongoing episodes at the end of observation are retained with `completed=0` in the episode table, but excluded from the completed-episode means. Before any episode completes, its mean is undefined (`NaN`), so the curve starts only when data exist. Do not replace these missing values with zero. These conditional descriptive means are not censoring-adjusted estimates of all eventual waiting/residence times.
 - Compute G as `(number_of_sites_in_segment - 1) * site_spacing`, consistent with the engine's first-to-last-site track-length definition. An isolated ON site has zero span; an all-OFF track has no positive span. No connection graph or cross-track transport is inferred.
-- Render one 3×3 grid with A–F across the first two rows, G at bottom left, and the last two cells empty. Each occupied panel contains one line per condition and no confidence interval. Export the plotted data and underlying duration episodes alongside PNG and vector PDF versions.
+- Render one 2×3 grid containing A–F. G was removed at the user’s request; its historical cached values remain available but are not plotted. Each occupied panel contains one line per condition and no confidence interval. Export the plotted data and underlying duration episodes alongside PNG and vector PDF versions.
 
 ## Variables
 
@@ -44,9 +44,9 @@ Additional caches owned by this unit:
 
 Tracked outputs:
 
-- `plots/conditions_analysis.png`: high-resolution 3×3 figure.
+- `plots/conditions_analysis.png`: high-resolution 2×3 figure.
 - `plots/conditions_analysis.pdf`: vector version of the same figure.
-- `plots/conditions_analysis.csv`: 324 rows, one per condition and snapshot. Includes the seven metrics plus intermediate-track and completed-episode counts for auditing denominators. Missing duration means are empty fields.
+- `plots/conditions_analysis.csv`: 324 rows, one per condition and snapshot. Retains the six plotted metrics, the historical unplotted within-track path metric, and intermediate-track and completed-episode counts for auditing denominators. Missing duration means are empty fields.
 - `plots/duration_episodes.csv`: condition, episode type, motor ID when applicable, track ID, start/end times, observed duration, and completion flag. For unfinished episodes, the end is the observation horizon and the duration is only time observed so far.
 - `plots/manifest.json`: color mapping, metric/source identities, end-of-run episode counts, and exact-replay validation results.
 
@@ -80,7 +80,7 @@ Condition identity is fixed project-wide in `../../DECISIONS.md` and `../../prot
 | Scattered permanent sites | Purple | `#8B3FC7` | Solid |
 
 - All four lines are solid and use fixed saturated condition colors; coincident values may overlap. Do not shift or smooth data to separate lines.
-- Every panel uses `Time (s)` on X. A shows mean motors/track; B dimensionless total-site ON fraction; C/D track counts; E/F seconds; G within-track length in µm.
+- Every panel uses `Time (s)` on X. A shows mean motors/track; B dimensionless total-site ON fraction; C/D track counts; E/F seconds. The historical path metric is no longer displayed.
 - Legend is shared above the figure. No overall title or footer commentary is included. Thresholds, averaging, and path definitions are documented here.
 - Lines join sampled values without smoothing or uncertainty bands. NaN sections are not drawn.
 - All text uses Arial. Standard attached axes show several tick values; bounded fractions/counts retain their natural full range, following the revised `STYLE.md`.
@@ -88,10 +88,12 @@ Condition identity is fixed project-wide in `../../DECISIONS.md` and `../../prot
 
 ## Interpretation
 
-- A–D describe contemporaneous binding and activation. E–F summarize durations completed up to the plotted time. G measures the largest contiguous activated segment inside an individual track.
+See [follow_up_questions.md](follow_up_questions.md) for the user’s scientific questions, cached-data checks, and interpretation of panels B–F.
+
+- A–D describe contemporaneous binding and activation. E–F summarize durations completed up to the plotted time. The historical G metric is no longer plotted.
 - The figure supports qualitative comparison of these specific simulated trajectories. It does not establish statistical significance, stable bistability, or experimentally validated performance.
 - The fixed-run condition uses the requested ~5 µm deterministic cutoff while the baseline retains a 20 µm nominal full-ON stochastic run scale. The earlier design limitation remains: this plot does not separate release-rule effects from cutoff-magnitude effects.
-- Track connectivity is still absent from the model. G is the user-approved within-track substitute, not a connected multi-track route.
+- Track connectivity is still absent from the model. The historical G metric was a within-track substitute, not a connected multi-track route; the user has now removed it from the figure.
 
 ## Notes
 
