@@ -1,0 +1,42 @@
+{
+  "only_intended_rule_differs": {
+    "baseline": [],
+    "cutter": [
+      "protect_occupied_sites"
+    ],
+    "motor": [
+      "run_length_mode"
+    ],
+    "permanent": [
+      "permanent_site_placement"
+    ]
+  },
+  "shared_geometry": {
+    "baseline": true,
+    "cutter": true,
+    "motor": true,
+    "permanent": true
+  },
+  "shared_site_counts": {
+    "baseline": true,
+    "cutter": true,
+    "motor": true,
+    "permanent": true
+  },
+  "permanent_counts_correct": {
+    "baseline": true,
+    "cutter": true,
+    "motor": true,
+    "permanent": true
+  },
+  "permanent_sites_stay_on": {
+    "baseline": true,
+    "cutter": true,
+    "motor": true,
+    "permanent": true
+  },
+  "fixed_run_limit_respected": true,
+  "nonplacement_conditions_share_permanent_mask": true,
+  "baseline_reference_cache_available": true,
+  "baseline_exact_reference_match": true
+}

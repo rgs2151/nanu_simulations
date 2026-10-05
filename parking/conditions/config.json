@@ -1,0 +1,20 @@
+{
+  "shared_baseline": "../baseline_simulation/baseline.json",
+  "shared_variable_overrides": {
+    "motor_brightness": 1.0,
+    "track_brightness": 0.12
+  },
+  "fluorescence": {
+    "fractional_half_range": 0.1
+  },
+  "model_defaults": {
+    "fixed_run_steps": 357,
+    "permanent_position_sd_fraction": 0.3
+  },
+  "conditions": {
+    "baseline": {},
+    "cutter": {"protect_occupied_sites": false},
+    "motor": {"run_length_mode": "fixed_steps"},
+    "permanent": {"permanent_site_placement": "random_normal"}
+  }
+}

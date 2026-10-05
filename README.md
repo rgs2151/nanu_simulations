@@ -31,6 +31,16 @@ python parking/baseline_simulation/baseline_simulation.py --verify-reference
 
 Edit scientific values in `parking/baseline_simulation/baseline.json`. Changed dynamics require `--recompute`; changed values should omit `--verify-reference`, which is reserved for the original preset. See the unit README for concentration calibration, track/site definitions, and cache rules.
 
+The [conditions unit](parking/conditions/README.md) compares baseline, unprotected cutting, fixed-step runs, and scattered permanent sites with shared inputs and persistent object fluorescence:
+
+```bash
+python parking/conditions/conditions.py
+# Re-render all four GIFs without running dynamics:
+python parking/conditions/conditions.py --render-only
+```
+
+Condition switches, common fluorescence settings, and the fixed-step cutoff live in `parking/conditions/config.json`. Scientific variables and geometry are inherited from the baseline preset. The original comparison GIFs remain preserved.
+
 An environment diagnostic records installed versions:
 
 ```bash
