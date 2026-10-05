@@ -37,13 +37,19 @@ Record only durable choices shared across analyses here. Unit-specific parameter
 
 ## Condition colors
 
-Use this fixed mapping in every future comparative analysis figure. Black is reserved for the baseline; the three variants use muted pastel colors with sufficient contrast against white. Do not reassign colors based on plotting order. The single source for plotting is `protein_simulation/style.py`.
+Use this fixed mapping in every future comparative analysis figure. Black is reserved for the baseline; the three variants use saturated colors that remain distinct against white. Do not reassign colors based on plotting order. The single source for plotting is `protein_simulation/style.py`.
 
 | Condition | Color | Hex |
 | --- | --- | --- |
 | Baseline | Black | `#000000` |
-| Cutter ignores motor protection | Muted blue | `#648CB8` |
-| Fixed motor run | Muted green | `#6F9E73` |
-| Scattered permanent sites | Muted purple | `#967AB1` |
+| Cutter ignores motor protection | Blue | `#2674D9` |
+| Fixed motor run | Green | `#219447` |
+| Scattered permanent sites | Purple | `#8B3FC7` |
 
 These condition colors encode model identity. Existing simulation GIF colors encode object/site identity and remain unchanged.
+
+## Plot presentation and routine edits
+
+- All future or revised plots use Arial, solid condition lines, standard Matplotlib axes, and several tick values, following the professor’s notebook style. Earlier generated figures remain unchanged unless regeneration is requested.
+- Put thresholds, methodology, and caveats in unit READMEs, not figure footnotes. Do not add an overall figure title unless requested.
+- Reuse caches for routine plot edits. Do not add or run tests for cosmetic changes or simple summaries; reserve testing for explicitly requested or substantively important scientific/engine work.

@@ -66,7 +66,6 @@ Outputs:
 - No statistical hypothesis tests, model fitting, effect-size comparisons, uncertainty estimates, or scientific summary plots are performed.
 - Verification requires exact equality of shared track starts/directions/lengths/spacing and snapshot times, equal site counts, equal permanent-site counts, and permanent sites remaining ON in every condition.
 - Each variant must differ from the unit baseline in exactly its specified model-rule field. The unchanged baseline must exactly match all arrays in the existing professor-reference cache when that cache is available. This cache was available and the check passed for the committed run; a fresh checkout without that local cache reports the reference check unavailable rather than claiming verification.
-- Mechanistic tests independently check cutting under motors, fixed-step release and track-end release, unique random permanent-site counts, and stable fluorescence sampling. Thirteen package tests pass, including the original baseline control tests.
 - These are deterministic software acceptance checks; null/alternative hypotheses and significance thresholds do not apply. They establish implementation behavior, not scientific or experimental superiority over the reference model.
 
 ## Legends
@@ -110,7 +109,6 @@ The reference-comparison unit and its existing outputs are untouched. The core e
 - `../../protein_simulation/engine.py` and `../../protein_simulation/parameters.py`: shared dynamics, rule switches, and population properties.
 - `../baseline_simulation/baseline.json`: shared scientific variables and original geometry.
 - `../../ref/dna_rail_transport_sim_en__1_.ipynb`: original baseline reference.
-- `../../tests/test_conditions.py` and `../../tests/test_engine.py`: mechanistic verification.
 
 # baseline
 
@@ -213,7 +211,6 @@ The reference-comparison unit and its existing outputs are untouched. The core e
 
 ## References
 
-- `../../protein_simulation/engine.py`: fixed-step branch; `../../tests/test_conditions.py`: cutoff and boundary checks.
 
 # permanent
 

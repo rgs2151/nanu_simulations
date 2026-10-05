@@ -42,9 +42,9 @@
   "high_threshold": 0.4,
   "colors": {
     "baseline": "#000000",
-    "cutter": "#648CB8",
-    "motor": "#6F9E73",
-    "permanent": "#967AB1"
+    "cutter": "#2674D9",
+    "motor": "#219447",
+    "permanent": "#8B3FC7"
   },
   "censoring": {
     "baseline": {
@@ -72,7 +72,7 @@
       "ongoing_dark_to_lit": 3
     }
   },
-  "plot_sha256": "dad7647f9eb13b257c96b9e7a85d5b6147588a2072fd5705b0b7bb25e5ecb0bc",
+  "plot_sha256": "4126dbaab1c7802d19821e041185d4624c10b374817b88ab6f8343d33f13cbcf",
   "confidence_intervals": false,
   "realizations_per_condition": 1,
   "time_unit": "s",

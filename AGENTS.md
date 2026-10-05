@@ -14,7 +14,9 @@
 - Fix current code to the current project contract. Do not preserve broken old interfaces.
 - Do not add try/except blocks unless asked. For expected analysis conditions, use direct checks before the operation.
 - Keep notebook cells clean: no extra print statements, no process notes, and code comments only when useful.
-- Do not run analyses, notebooks, figure generation, or tests unless the user explicitly asks.
+- Do not run analyses, notebooks, or figure generation unless the user explicitly asks.
+- Do not add or run tests for routine summaries, documentation, or plotting edits. Reserve tests for explicitly requested or substantively important engine/scientific changes.
+- Plotting-only edits must reuse caches; do not rerun simulations. Follow the current Arial, solid-line style in STYLE.md.
 - File moves and text edits are okay for organization tasks.
 - Do not move, overwrite, regenerate, or clean files in `data/` unless the user explicitly asks.
 - Do not modify, overwrite, regenerate, or clean result artifacts unless the user explicitly asks for that artifact action.

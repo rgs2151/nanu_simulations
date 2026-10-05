@@ -104,7 +104,6 @@ For deliberately changed scientific values use `--recompute` without `--verify-r
 - `reference.py` is a baseline-only verification/initialization adapter. Normal translated simulations do not execute notebook code; `--verify-reference` and initial preset creation do.
 - `reference.py` can recreate the preset only when `baseline.json` is absent, preventing accidental replacement of user edits.
 - `render.py` owns this unit's rendering. Its style deliberately matches the professor's schematic rather than the project's later manuscript-figure style.
-- Meaningful control checks live in `tests/test_engine.py`; run with `python -m unittest discover -s tests -v`.
 - No manuscript caption is drafted yet. Future caption text belongs in this unit's `caption.md`.
 
 ## References

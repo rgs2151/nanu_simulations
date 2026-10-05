@@ -56,7 +56,6 @@ Tracked outputs:
 - Null hypothesis and alternative hypothesis: not applicable. The requested plot compares one existing realization per condition rather than performing an inferential experiment.
 - Decision rules: strict 5%/40% thresholds classify individual track states; they are mechanistic/descriptive categories, not significance thresholds. Lit + dark can be less than 50 because intermediate tracks are omitted from both counts; lit + dark + intermediate must equal 50.
 - Acceptance checks require exact equality of every replayed result array against the original condition cache; all four passed. Fine-step ON counts must reproduce every original snapshot count. Completed residence-episode counts must equal the original completed-run counts.
-- Nineteen package/analysis tests pass, including hand-calculated cases for threshold equality, dark-to-lit passages across intermediate states, censoring, same-track rebinding, contiguous segments separated by track boundaries, and observation callbacks leaving dynamics unchanged.
 - Completed-episode denominators vary by condition and time. Long/unfinished dark passages or motor dwell episodes are excluded until completion, so E/F are conditional means with completion-selection effects. They must not be interpreted as unbiased population mean waiting times or used to claim a significant condition difference.
 - Final event inventory for this realization:
 
@@ -76,15 +75,15 @@ Condition identity is fixed project-wide in `../../DECISIONS.md` and `../../prot
 | Condition | Color | Hex | Line style in this figure |
 | --- | --- | --- | --- |
 | Baseline | Black | `#000000` | Solid |
-| Cutter ignores protection | Muted blue | `#648CB8` | Short dash |
-| Fixed motor run | Muted green | `#6F9E73` | Long dash |
-| Scattered permanent sites | Muted purple | `#967AB1` | Fine dash |
+| Cutter ignores protection | Blue | `#2674D9` | Solid |
+| Fixed motor run | Green | `#219447` | Solid |
+| Scattered permanent sites | Purple | `#8B3FC7` | Solid |
 
-- The additional dash patterns help distinguish overlapping trajectories without shifting their values. Do not change the condition colors in future analysis plots.
+- All four lines are solid and use fixed saturated condition colors; coincident values may overlap. Do not shift or smooth data to separate lines.
 - Every panel uses `Time (s)` on X. A shows mean motors/track; B dimensionless total-site ON fraction; C/D track counts; E/F seconds; G within-track length in µm.
-- Legend is shared above the figure. The bottom notes state the low/high thresholds, completed-episode averaging, absence of confidence intervals, and within-track interpretation of the path metric.
+- Legend is shared above the figure. No overall title or footer commentary is included. Thresholds, averaging, and path definitions are documented here.
 - Lines join sampled values without smoothing or uncertainty bands. NaN sections are not drawn.
-- Axis endpoints are shown with trimmed/offset spines following `STYLE.md`; axes for bounded fractions/counts retain their natural full range.
+- All text uses Arial. Standard attached axes show several tick values; bounded fractions/counts retain their natural full range, following the revised `STYLE.md`.
 - The colors used here encode conditions. They do not replace the object/site colors in existing simulation GIFs.
 
 ## Interpretation
@@ -122,4 +121,3 @@ No manuscript caption is drafted yet; future caption text belongs in this unit's
 - `../../ref/dna_rail_transport_sim_en__1_.ipynb`, analysis cell 8: professor's strict low/high thresholds.
 - `../../protein_simulation/engine.py`: shared simulation with optional event/state observation hooks.
 - `../../protein_simulation/style.py` and `../../DECISIONS.md`: stable condition colors.
-- `../../tests/test_analysis_metrics.py` and `../../tests/test_engine.py`: metric and observer verification.
