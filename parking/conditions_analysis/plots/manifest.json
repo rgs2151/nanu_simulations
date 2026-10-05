@@ -1,0 +1,162 @@
+{
+  "event_sources": {
+    "baseline": {
+      "source_cache_sha256": "721db6db685d174c90170a123416b27e19de97a90dec4f0e7aa2575f8382ef06",
+      "source_manifest_sha256": "5ef330200fb09669fffc68ced842b9d7436e142915216807796f20f75ee6e4b1",
+      "engine_sha256": "6ec413f65fc7a92a091dcab570ed41bddba78e9e32035573e5dcba8b000f6ff9",
+      "parameters_sha256": "443083a7afe1e4d73d5d1e189d551582cf2a036bb344b4f25287660019c8948b",
+      "recorder_sha256": "4471195016424facce8f5ddab770629efe6f36f2f4819e3a3dd2c14d298c1a10",
+      "numpy_version": "2.4.6",
+      "events_sha256": "ef6a375818d659741a52a481c0c727d072710d50d43e6aea67504c45af4e3bd8"
+    },
+    "cutter": {
+      "source_cache_sha256": "05ebd46e59bb4d24a18331037aa80655e4335851de0f70d28373a8a0e1457cd4",
+      "source_manifest_sha256": "386bad5a6e1ceec99996fcc13c551374346e25341f9fa906c6687862b5e5e35a",
+      "engine_sha256": "6ec413f65fc7a92a091dcab570ed41bddba78e9e32035573e5dcba8b000f6ff9",
+      "parameters_sha256": "443083a7afe1e4d73d5d1e189d551582cf2a036bb344b4f25287660019c8948b",
+      "recorder_sha256": "4471195016424facce8f5ddab770629efe6f36f2f4819e3a3dd2c14d298c1a10",
+      "numpy_version": "2.4.6",
+      "events_sha256": "7391382f24bdd8b33960c4bb43d7882308d0f774c6db327c3365a001a680b704"
+    },
+    "motor": {
+      "source_cache_sha256": "6248e229a68ae88c4d142e9fbb9b00ad003d0393761929d6367b432254f42610",
+      "source_manifest_sha256": "fbbb46a0979fa88ca7f82d860b4579a200ab9433bb21798925d5c3225ce04506",
+      "engine_sha256": "6ec413f65fc7a92a091dcab570ed41bddba78e9e32035573e5dcba8b000f6ff9",
+      "parameters_sha256": "443083a7afe1e4d73d5d1e189d551582cf2a036bb344b4f25287660019c8948b",
+      "recorder_sha256": "4471195016424facce8f5ddab770629efe6f36f2f4819e3a3dd2c14d298c1a10",
+      "numpy_version": "2.4.6",
+      "events_sha256": "ccd20eee493552bffc45050ee213aae55f2e4ad51ef35da34bac8fef8c004fae"
+    },
+    "permanent": {
+      "source_cache_sha256": "33fdb3a88afc620425088433a2b967565fa93bfea9e92534de362158272057ca",
+      "source_manifest_sha256": "0a76d63a6f3eb0b563b5c86e3d95c83f006ef1d256e16d87783574c06b43f05a",
+      "engine_sha256": "6ec413f65fc7a92a091dcab570ed41bddba78e9e32035573e5dcba8b000f6ff9",
+      "parameters_sha256": "443083a7afe1e4d73d5d1e189d551582cf2a036bb344b4f25287660019c8948b",
+      "recorder_sha256": "4471195016424facce8f5ddab770629efe6f36f2f4819e3a3dd2c14d298c1a10",
+      "numpy_version": "2.4.6",
+      "events_sha256": "19ff28ebf2b0141749af05b64cb8ae3004307f2543cd9184af569c29339e5d12"
+    }
+  },
+  "metrics_sha256": "fa131df1b65dc7cb8c29d79f71bcec8e0187346f10ec16b8b2c9cf9c5311279b",
+  "low_threshold": 0.05,
+  "high_threshold": 0.4,
+  "colors": {
+    "baseline": "#000000",
+    "cutter": "#648CB8",
+    "motor": "#6F9E73",
+    "permanent": "#967AB1"
+  },
+  "censoring": {
+    "baseline": {
+      "completed_dwell": 1030,
+      "ongoing_dwell": 40,
+      "completed_dark_to_lit": 31,
+      "ongoing_dark_to_lit": 19
+    },
+    "cutter": {
+      "completed_dwell": 1146,
+      "ongoing_dwell": 39,
+      "completed_dark_to_lit": 35,
+      "ongoing_dark_to_lit": 16
+    },
+    "motor": {
+      "completed_dwell": 1455,
+      "ongoing_dwell": 38,
+      "completed_dark_to_lit": 42,
+      "ongoing_dark_to_lit": 9
+    },
+    "permanent": {
+      "completed_dwell": 1273,
+      "ongoing_dwell": 40,
+      "completed_dark_to_lit": 51,
+      "ongoing_dark_to_lit": 3
+    }
+  },
+  "plot_sha256": "dad7647f9eb13b257c96b9e7a85d5b6147588a2072fd5705b0b7bb25e5ecb0bc",
+  "confidence_intervals": false,
+  "realizations_per_condition": 1,
+  "time_unit": "s",
+  "length_unit": "um",
+  "event_replay_validation": {
+    "baseline": {
+      "exact_trajectory_match": {
+        "starts": true,
+        "directions": true,
+        "lengths": true,
+        "site_counts": true,
+        "offsets": true,
+        "spacing": true,
+        "body_sites": true,
+        "permanent": true,
+        "times": true,
+        "on": true,
+        "motor_track": true,
+        "motor_position": true,
+        "run_lengths": true
+      },
+      "completed_dwell_episodes": 1030,
+      "ongoing_dwell_episodes": 40,
+      "integration_states": 32001
+    },
+    "cutter": {
+      "exact_trajectory_match": {
+        "starts": true,
+        "directions": true,
+        "lengths": true,
+        "site_counts": true,
+        "offsets": true,
+        "spacing": true,
+        "body_sites": true,
+        "permanent": true,
+        "times": true,
+        "on": true,
+        "motor_track": true,
+        "motor_position": true,
+        "run_lengths": true
+      },
+      "completed_dwell_episodes": 1146,
+      "ongoing_dwell_episodes": 39,
+      "integration_states": 32001
+    },
+    "motor": {
+      "exact_trajectory_match": {
+        "starts": true,
+        "directions": true,
+        "lengths": true,
+        "site_counts": true,
+        "offsets": true,
+        "spacing": true,
+        "body_sites": true,
+        "permanent": true,
+        "times": true,
+        "on": true,
+        "motor_track": true,
+        "motor_position": true,
+        "run_lengths": true
+      },
+      "completed_dwell_episodes": 1455,
+      "ongoing_dwell_episodes": 38,
+      "integration_states": 32001
+    },
+    "permanent": {
+      "exact_trajectory_match": {
+        "starts": true,
+        "directions": true,
+        "lengths": true,
+        "site_counts": true,
+        "offsets": true,
+        "spacing": true,
+        "body_sites": true,
+        "permanent": true,
+        "times": true,
+        "on": true,
+        "motor_track": true,
+        "motor_position": true,
+        "run_lengths": true
+      },
+      "completed_dwell_episodes": 1273,
+      "ongoing_dwell_episodes": 40,
+      "integration_states": 32001
+    }
+  }
+}

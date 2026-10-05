@@ -41,6 +41,15 @@ python parking/conditions/conditions.py --render-only
 
 Condition switches, common fluorescence settings, and the fixed-step cutoff live in `parking/conditions/config.json`. Scientific variables and geometry are inherited from the baseline preset. The original comparison GIFs remain preserved.
 
+The [conditions analysis unit](parking/conditions_analysis/README.md) summarizes these same four trajectories in a seven-panel 3×3 figure, with fixed condition colors and no confidence intervals:
+
+```bash
+python parking/conditions_analysis/record_events.py --workers 64
+python parking/conditions_analysis/conditions_analysis.py
+```
+
+Exact-step event caches are created once to measure dwell and activation-passage times; later plotting reuses them. The final panel measures the longest contiguous ON segment within a track, since inter-track connectivity is not modeled.
+
 An environment diagnostic records installed versions:
 
 ```bash
