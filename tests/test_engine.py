@@ -54,6 +54,26 @@ class EngineControls(unittest.TestCase):
         self.assertEqual(binding_probability(0, 0, 1, 1), 0)
         self.assertEqual(binding_probability(0, 1, 0, 1), 1)
 
+    def test_event_observers_preserve_trajectory_and_snapshot_occupancy(self):
+        plain = simulate(self.v, self.s)
+        events, snapshots = [], {}
+        def observe_state(time_s, state):
+            self.assertFalse(state.flags.writeable)
+            snapshots[time_s] = state.copy()
+        observed = simulate(self.v, self.s,
+                            event_callback=lambda *event: events.append(event),
+                            state_callback=observe_state)
+        for field in ('on', 'motor_track', 'motor_position', 'run_lengths'):
+            np.testing.assert_array_equal(getattr(plain, field), getattr(observed, field))
+        for k, time_s in enumerate(plain.times):
+            np.testing.assert_array_equal(snapshots[time_s], plain.on[k])
+            state = np.full(self.v.number_motors, -1)
+            for kind, timestamp, motor, track in events:
+                if timestamp <= time_s:
+                    state[motor] = track if kind == 'bind' else -1
+            np.testing.assert_array_equal(state, plain.motor_track[k])
+        self.assertEqual(sum(event[0] == 'release' for event in events), len(plain.run_lengths))
+
     def test_reject_invalid_counts_and_time_step(self):
         with self.assertRaises(ValueError):
             simulate(replace(self.v, number_temporary_sites=1.5), self.s)

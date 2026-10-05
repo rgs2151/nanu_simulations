@@ -29,12 +29,15 @@ def binding_probability(n_temporary, n_permanent, p_temporary, p_permanent):
 
 
 def simulate(v: Variables, settings: RunSettings = RunSettings(), layout=None,
-             rules: ModelRules = ModelRules()) -> Result:
+             rules: ModelRules = ModelRules(), event_callback=None, state_callback=None) -> Result:
     """Simulate using a supplied layout/RNG continuation, or generate a new layout.
 
     Track length is the distance between the first and last binding sites.
     A supplied layout contains starts, directions, and the RNG state immediately
     after track generation. It is used for exact notebook-baseline reproduction.
+    Optional observers record events and completed-step site states without RNG draws.
+    event_callback(kind, time_s, motor_id, track_id) receives bind/release events.
+    state_callback(time_s, on) receives a read-only view of the current site state.
     """
     if not isinstance(rules.protect_occupied_sites, bool):
         raise ValueError("protect_occupied_sites must be a boolean")
@@ -150,8 +153,17 @@ def simulate(v: Variables, settings: RunSettings = RunSettings(), layout=None,
         g = offsets[j] + position[i]
         occupied[g:g + body[j]] -= 1
         runs.append((position[i] - binding_position[i]) * spacing[j])
+        if event_callback is not None:
+            event_callback("release", (step + 1) * settings.time_step_s, int(i), int(j))
         track[i] = -1
 
+    def report_state(time_s):
+        if state_callback is not None:
+            state = on.view()
+            state.flags.writeable = False
+            state_callback(time_s, state)
+
+    report_state(0.0)
     for step in range(steps + 1):
         if step % every == 0:
             times.append(step * settings.time_step_s)
@@ -182,6 +194,8 @@ def simulate(v: Variables, settings: RunSettings = RunSettings(), layout=None,
                     position[i] = pos
                     binding_position[i] = pos
                     occupied[footprint] += 1
+                    if event_callback is not None:
+                        event_callback("bind", (step + 1) * settings.time_step_s, int(i), int(j))
             elif random_events[i] < p_step[j]:
                 pos = position[i]
                 lead = pos + body[j]
@@ -209,6 +223,7 @@ def simulate(v: Variables, settings: RunSettings = RunSettings(), layout=None,
                 eligible = eligible[occupied[eligible] == 0]
             if eligible.size:
                 on[eligible[rng.random(eligible.size) < p_cut]] = False
+        report_state((step + 1) * settings.time_step_s)
     return Result(starts, directions, lengths, ns, offsets, spacing, body, permanent,
                   np.array(times), np.array(on_history), np.array(track_history),
                   np.array(position_history), np.array(runs, dtype=float))

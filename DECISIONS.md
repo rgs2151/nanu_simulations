@@ -34,3 +34,16 @@ Record only durable choices shared across analyses here. Unit-specific parameter
 - Fixed-step runs release a motor after the specified number of successful forward steps since binding, or at the track end if reached earlier. Stalling consumes time but not the step budget; rebinding starts a new run.
 - Random permanent-site placement samples unique site indices without replacement, maintaining the specified per-track count. Placement randomness is separate from dynamics and fluorescence randomness.
 - The original baseline comparison artifacts are preserved. New conditions use their own cached results and renderer.
+
+## Condition colors
+
+Use this fixed mapping in every future comparative analysis figure. Black is reserved for the baseline; the three variants use muted pastel colors with sufficient contrast against white. Do not reassign colors based on plotting order. The single source for plotting is `protein_simulation/style.py`.
+
+| Condition | Color | Hex |
+| --- | --- | --- |
+| Baseline | Black | `#000000` |
+| Cutter ignores motor protection | Muted blue | `#648CB8` |
+| Fixed motor run | Muted green | `#6F9E73` |
+| Scattered permanent sites | Muted purple | `#967AB1` |
+
+These condition colors encode model identity. Existing simulation GIF colors encode object/site identity and remain unchanged.
