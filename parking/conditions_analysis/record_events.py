@@ -61,15 +61,19 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--workers', type=int, default=64)
     parser.add_argument('--recompute', action='store_true')
+    parser.add_argument('--condition', choices=NAMES, action='append', help='Refresh only selected conditions')
     args = parser.parse_args()
     if args.workers < 1:
         parser.error('--workers must be positive')
     (UNIT / 'cache').mkdir(exist_ok=True)
     needed = []
-    for name in NAMES:
+    for name in (args.condition or NAMES):
         cache, meta = UNIT / 'cache' / f'{name}_events.npz', UNIT / 'cache' / f'{name}_events.json'
         if cache.exists() and not args.recompute:
-            if not meta.exists() or json.loads(meta.read_text()) != identity(name):
+            recorded = json.loads(meta.read_text()) if meta.exists() else {}
+            expected = identity(name)
+            keys = ('source_cache_sha256', 'source_manifest_sha256', 'recorder_sha256', 'numpy_version')
+            if any(recorded.get(key) != expected[key] for key in keys):
                 raise ValueError(f'{name}: event cache is stale; explicitly use --recompute')
         else:
             needed.append(name)

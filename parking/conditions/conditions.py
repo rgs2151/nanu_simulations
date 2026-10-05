@@ -81,8 +81,12 @@ def main():
         identities[name] = identity
         path, meta = cache / f'{name}.npz', cache / f'{name}.json'
         if path.exists() and not args.recompute:
-            if not meta.exists() or json.loads(meta.read_text()) != identity:
+            recorded = json.loads(meta.read_text()) if meta.exists() else {}
+            # Rendering uses recorded results; a newer engine alone does not invalidate them.
+            keys = ('shared_inputs', 'rules') if args.render_only else tuple(identity)
+            if any(recorded.get(key) != identity[key] for key in keys):
                 raise ValueError(f'{name}: stale cache. Use --recompute explicitly.')
+            identities[name] = recorded
             print(f'{name}: using cached simulation', flush=True)
             results[name] = read_result(path)
         else:

@@ -1,6 +1,19 @@
 # Follow-up questions
 
-This is the running record of the user's scientific questions about the conditions analysis. Answers below are based on the current code and existing cached single realizations. No simulations or tests were run for this follow-up. The figure was redrawn from its summary cache to remove G and retain A–F in a 2×3 layout.
+This is the running record of the user's scientific questions about the conditions analysis. The original answers used the code and cached single realizations available at that time, with no new simulations or tests. That original follow-up removed the path panel and used a 2×3 layout. The correction below supersedes the original motor-condition interpretation and records the subsequent simulation refresh and 2×4 layout.
+
+
+## Correction: the requested motor condition is an upper cap, not a guaranteed run
+
+The user clarified that early release must remain exactly as in baseline. My previous implementation removed baseline stochastic release and therefore implemented the wrong scientific condition. The earlier explanation checked the internal consistency of that wrong condition; it did not establish fidelity to the user's intended model. The historical answers and numbers below describe that superseded implementation (tracked outputs at commit `107e96f`) and must not be treated as current corrected results.
+
+The corrected rule performs baseline's ON-density-dependent release trial after every successful step, and additionally forces release on reaching 357 steps (4.998 µm). Track-end release, motor protection, upstream permanent sites, and every shared scientific variable remain unchanged. The RNG release draw is retained even on a capped step. The fixed-distance field is now a maximum only.
+
+Only the motor condition was resimulated; its fine-step events were recorded in the same pass. The other three conditions were reused unchanged. Corrected cached results: 1,634 completed visits, 787 shorter than 4.998 µm, maximum 4.998 µm, completed mean dwell 369.72 s, final ON fraction 37.84%, and final track counts 26 lit / 16 intermediate / 8 dark. The first plotted dwell value is now 73.5 s at 200 s, identical to baseline's first completed-visit value. The initially high green dwell onset in the old figure is no longer present.
+
+The capped condition still has a higher global ON fraction in this single realization. That does not restore the old guarantee-based explanation: it is now a different, corrected result under baseline stochastic release plus a cap. Earlier mechanisms invoking removal of low-density stochastic release are inapplicable. Redistribution after capped release and differences in net productive writing remain possible explanations, not established causes; no new mechanistic sweep was run.
+
+The new figure order is A motors/track, B dwell time, C ON fraction, D dark-to-lit time; E lit count, F intermediate count, G dark count. The old question numbers and plot letters below refer to the earlier figure. The old path panel is not restored.
 
 ## 1. Why does fixed motor run produce more ON sites than baseline? Was scattered permanent-site placement accidentally included?
 

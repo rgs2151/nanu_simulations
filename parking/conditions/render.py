@@ -10,7 +10,7 @@ from matplotlib.lines import Line2D
 TITLES = {
     'baseline': ('Baseline', 'Occupied temporary sites are protected.\nRun length depends on footprint ON density.\nPermanent sites form upstream clusters.'),
     'cutter': ('Cutter ignores motors', 'Temporary ON sites can be cut\neven underneath a motor.\nAll other baseline rules are retained.'),
-    'motor': ('Fixed motor run', 'Release after {steps} forward steps\n({distance:.3f} µm), or at the track end.\nNo ON-density-dependent release.'),
+    'motor': ('Capped motor run', 'Baseline stochastic release is retained.\nAt most {steps} forward steps ({distance:.3f} µm).\nTrack-end release is retained.'),
     'permanent': ('Scattered permanent sites', 'Same permanent-site count per track.\nDistinct positions sampled from a normal\ndistribution centered along each track.'),
 }
 MOTOR_COLOR = '#145bd7'

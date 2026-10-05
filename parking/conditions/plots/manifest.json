@@ -1667,12 +1667,12 @@
       },
       "rules": {
         "protect_occupied_sites": true,
-        "run_length_mode": "fixed_steps",
+        "run_length_mode": "capped_steps",
         "fixed_run_steps": 357,
         "permanent_site_placement": "upstream",
         "permanent_position_sd_fraction": 0.3
       },
-      "engine_sha256": "2fb150a7f20433355acb090ead76389f4198177cdf8b8a61885815f59d0f55c0",
+      "engine_sha256": "09e31392b93439067c039a9572da51849392e36122161168d253cfe9050ce921",
       "parameters_sha256": "443083a7afe1e4d73d5d1e189d551582cf2a036bb344b4f25287660019c8948b",
       "python": "3.11.16",
       "numpy": "2.4.6"
@@ -2345,5 +2345,5 @@
       0.11797225476334004
     ]
   },
-  "render_sha256": "cfdacb1c6269bcd3fca7a213eaf392aa1060bf46d6770bc5c1a6a738e91f8eb9"
+  "render_sha256": "97143ca51f170e7b08d29e6549a909d5e648931c2ca04a16a9ff655bc1678cc8"
 }

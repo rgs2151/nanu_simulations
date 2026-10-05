@@ -30,9 +30,14 @@ def main():
     for name in NAMES:
         expected = identity(name)
         event_meta = cache / f'{name}_events.json'
-        if not event_meta.exists() or json.loads(event_meta.read_text()) != expected:
-            raise ValueError(f'{name}: missing/stale events; run record_events.py explicitly before analysis')
-        event_identities[name] = expected | {'events_sha256': sha(cache / f'{name}_events.npz')}
+        if not event_meta.exists():
+            raise ValueError(f'{name}: missing events; run record_events.py explicitly before analysis')
+        recorded = json.loads(event_meta.read_text())
+        # Analysis consumes recorded observations of the source cache, not new dynamics.
+        keys = ('source_cache_sha256', 'source_manifest_sha256', 'recorder_sha256', 'numpy_version')
+        if any(recorded[key] != expected[key] for key in keys):
+            raise ValueError(f'{name}: stale events; run record_events.py explicitly before analysis')
+        event_identities[name] = recorded | {'events_sha256': sha(cache / f'{name}_events.npz')}
     signature = {'event_sources': event_identities, 'metrics_sha256': sha(UNIT / 'metrics.py'),
                  'low_threshold': LOW, 'high_threshold': HIGH}
     metrics_path, metrics_meta = cache / 'summary.npz', cache / 'summary.json'

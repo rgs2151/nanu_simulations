@@ -38,5 +38,7 @@
   "fixed_run_limit_respected": true,
   "nonplacement_conditions_share_permanent_mask": true,
   "baseline_reference_cache_available": true,
-  "baseline_exact_reference_match": true
+  "baseline_exact_reference_match": true,
+  "motor_stochastic_detachment_retained": true,
+  "motor_completed_runs_below_cap": 787
 }

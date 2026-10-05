@@ -41,7 +41,7 @@ def simulate(v: Variables, settings: RunSettings = RunSettings(), layout=None,
     """
     if not isinstance(rules.protect_occupied_sites, bool):
         raise ValueError("protect_occupied_sites must be a boolean")
-    if rules.run_length_mode not in ("on_dependent", "fixed_steps"):
+    if rules.run_length_mode not in ("on_dependent", "capped_steps"):
         raise ValueError("Unknown run-length mode")
     if rules.permanent_site_placement not in ("upstream", "random_normal"):
         raise ValueError("Unknown permanent-site placement")
@@ -84,7 +84,7 @@ def simulate(v: Variables, settings: RunSettings = RunSettings(), layout=None,
     p_cut = v.cutter_concentration * settings.erasure_rate_per_concentration_s * settings.time_step_s
     if (p_step > 0.6).any() or p_search > 1 or p_cut > 1:
         raise ValueError("Reduce time_step_s: walking probability must be <=0.6; other event probabilities <=1")
-    if rules.run_length_mode == "on_dependent" and (p_leave / settings.minimum_on_fraction > 1).any():
+    if (p_leave / settings.minimum_on_fraction > 1).any():
         raise ValueError("Run length is too short for this site spacing and ON-density floor")
     for value, name in ((settings.duration_s, "duration_s"), (settings.sample_interval_s, "sample_interval_s")):
         ratio = value / settings.time_step_s
@@ -210,13 +210,13 @@ def simulate(v: Variables, settings: RunSettings = RunSettings(), layout=None,
                 position[i] = pos + 1
                 if rng.random() < v.writing_probability:
                     on[gl] = True
-                if rules.run_length_mode == "fixed_steps":
-                    if position[i] - binding_position[i] >= rules.fixed_run_steps:
-                        detach(i)
-                else:
-                    f = on[gl - body[j] + 1:gl + 1].sum() / body[j]
-                    if rng.random() < p_leave[j] / max(f, settings.minimum_on_fraction):
-                        detach(i)
+                # Every mode retains baseline's density-dependent release trial.
+                f = on[gl - body[j] + 1:gl + 1].sum() / body[j]
+                stochastic_release = rng.random() < p_leave[j] / max(f, settings.minimum_on_fraction)
+                reached_cap = (rules.run_length_mode == "capped_steps"
+                               and position[i] - binding_position[i] >= rules.fixed_run_steps)
+                if stochastic_release or reached_cap:
+                    detach(i)
         eligible = np.flatnonzero(on & ~permanent)
         if eligible.size:
             if rules.protect_occupied_sites:

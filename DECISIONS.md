@@ -31,7 +31,7 @@ Record only durable choices shared across analyses here. Unit-specific parameter
 
 - Conditions use the shared engine and a shared resolved configuration. Change only the specified rule; record any intentionally changed numerical control alongside it.
 - Unprotected cutting erases temporary ON sites even inside motor footprints; it does not directly remove motors or erase permanent sites. Motor detachment still follows the selected run rule.
-- Fixed-step runs release a motor after the specified number of successful forward steps since binding, or at the track end if reached earlier. Stalling consumes time but not the step budget; rebinding starts a new run.
+- Capped runs retain the baseline ON-density-dependent stochastic release at every successful step and additionally force release by a maximum step count. This is an upper bound, not a guaranteed/minimum run. Track-end release is retained. Stalling consumes time but not steps; rebinding resets the step count. The prior deterministic-only interpretation was incorrect and is superseded.
 - Random permanent-site placement samples unique site indices without replacement, maintaining the specified per-track count. Placement randomness is separate from dynamics and fluorescence randomness.
 - The original baseline comparison artifacts are preserved. New conditions use their own cached results and renderer.
 
@@ -43,7 +43,7 @@ Use this fixed mapping in every future comparative analysis figure. Black is res
 | --- | --- | --- |
 | Baseline | Black | `#000000` |
 | Cutter ignores motor protection | Blue | `#2674D9` |
-| Fixed motor run | Green | `#219447` |
+| Capped motor run | Green | `#219447` |
 | Scattered permanent sites | Purple | `#8B3FC7` |
 
 These condition colors encode model identity. Existing simulation GIF colors encode object/site identity and remain unchanged.

@@ -8,7 +8,7 @@ CONDITION_COLORS = {
 CONDITION_LABELS = {
     "baseline": "Baseline",
     "cutter": "Cutter ignores protection",
-    "motor": "Fixed motor run",
+    "motor": "Capped motor run",
     "permanent": "Scattered permanent sites",
 }
 

@@ -14,7 +14,7 @@
   "conditions": {
     "baseline": {},
     "cutter": {"protect_occupied_sites": false},
-    "motor": {"run_length_mode": "fixed_steps"},
+    "motor": {"run_length_mode": "capped_steps"},
     "permanent": {"permanent_site_placement": "random_normal"}
   }
 }

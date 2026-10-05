@@ -24,7 +24,7 @@ All 14 variables are identical between these four runs:
 | Number of temporary sites | Same per-track counts, 550–1,443; 48,583 total |
 | Number of permanent sites | 15 per track; 750 total |
 | Motor speed | 0.010 µm/s mean unblocked speed |
-| Motor run length | Baseline nominal value 20 µm; unused in the fixed-step condition, whose separate cutoff is below |
+| Motor run length | Baseline nominal value 20 µm in every condition; the motor condition additionally has the maximum-step cutoff below |
 | Motor size | 0.400 µm nominal; 29 sites / 0.406 µm after discretization |
 | Binding probability at an ON temporary site | 1 |
 | Binding probability at a permanent site | 1 |
@@ -36,7 +36,7 @@ Additional model and numerical controls:
 
 | Control | Setting |
 | --- | --- |
-| `fixed_run_steps` | 357 successful forward steps (4.998 µm at 14 nm/site); used only by `motor` |
+| `fixed_run_steps` | Maximum 357 successful forward steps (4.998 µm at 14 nm/site); early baseline stochastic release remains enabled |
 | `permanent_position_sd_fraction` | 0.3 of normalized track length; used only by `permanent` |
 | Permanent-position mean | Midpoint of each track, normalized position 0.5 |
 | Fluorescence fractional half-range | 0.1, shared by the two population brightness distributions |
@@ -81,7 +81,7 @@ Outputs:
 ## Interpretation
 
 - The GIFs allow qualitative inspection of implementation and readability. The shared population and renderer make optical differences less likely to be mistaken for model differences.
-- The deterministic run condition intentionally introduces a 357-step cutoff instead of the baseline's 20 µm full-ON stochastic run scale. This requested new cutoff is an explicit additional control. Differences cannot yet be attributed to deterministic versus stochastic release independently of the chosen cutoff magnitude; that requires the planned parameter sweep.
+- The capped-run condition retains the baseline 20 µm full-ON stochastic run scale and all early-detachment behavior, adding only a hard upper bound of 357 steps. The previous deterministic-only interpretation was incorrect and has been replaced.
 - Normal-weighted placement is center-biased, not uniform along a track. It maintains exact counts while changing only the placement mechanism.
 
 ## Notes
@@ -181,36 +181,40 @@ The reference-comparison unit and its existing outputs are untouched. The core e
 
 ## Method
 
-- Set `run_length_mode='fixed_steps'` and retain protection, upstream clusters, exclusion, and writing.
-- Count successful forward steps since each motor's latest binding event. Release immediately after step 357, or earlier at a track end. Stalled attempts do not consume steps. Rebinding starts a new step count.
-- Do not perform ON-density-dependent stochastic detachment trials in this mode. A motor remains free to bind again after release.
+- Set `run_length_mode='capped_steps'` and retain every baseline stepping, writing, protection, and stochastic-release rule.
+- After every successful forward step, draw the same ON-density-dependent release trial as baseline. Release if that trial succeeds OR if the motor has reached the maximum of 357 steps since binding.
+- Track-end release remains enabled. Stalled attempts do not consume the step budget; rebinding starts a new budget. There is no guaranteed minimum travel distance.
 
 ## Variables
 
-- The same 14 scientific inputs are supplied, but the nominal `motor_run_length_um=20` is intentionally unused in this mode.
-- Additional condition control: `fixed_run_steps=357`, equivalent to 4.998 µm at the shared 0.014 µm site spacing. For future unequal spacings, this rule fixes steps, so the physical distance is track-specific.
-- All other scientific inputs, geometry, timing, and object fluorescence match the control.
+- All 14 scientific variables match baseline, including the active nominal `motor_run_length_um=20` stochastic distance scale.
+- The existing configuration field `fixed_run_steps=357` now denotes only the fixed **upper limit**, 4.998 µm at baseline spacing. It is not a target or a minimum. A future unequal site spacing changes the physical cap for that track.
+- Only the motor condition's run mode changes. Upstream permanent clusters and protection remain baseline-identical.
 - Cache: `cache/motor.npz`; outputs: `plots/motor.gif` and `plots/motor_final.png`.
 
 ## Statistics
 
-- No inferential test. Completed run lengths must not exceed the fixed step limit converted to distance; the check passes. Separate unit tests verify exact cutoff release without track-end interference and earlier release at boundaries.
-- No null/alternative hypothesis or statistical decision threshold applies. The 357-step limit is a mechanistic threshold, not a significance threshold.
+- No inferential tests. The corrected realization has 1,634 completed visits; 787 are shorter than the cap and no completed visit exceeds 4.998 µm.
+- Early release can be stochastic or due to track end. These counts alone do not distinguish the causes.
 
 ## Legends
 
-- Gray track fluorescence, red temporary-ON density, gold permanent-site diamonds, and blue motor bars use the same scale/exposure as the other conditions. The sidebar explicitly states the cutoff and track-end exception.
+- Gray track fluorescence, red temporary-ON density, gold permanent-site diamonds, and blue motor bars retain the shared rendering definitions. The GIF sidebar states that baseline stochastic release is retained and the distance is a maximum.
 
 ## Interpretation
 
-- This is deterministic distance-limited release, not a constant detachment probability with an exponentially distributed run length. The illustrative cutoff differs from the baseline's nominal scale by request; later sweeps are needed to study cutoff effects separately.
+- This is baseline dynamics plus a maximum run distance, not guaranteed-distance transport. Previous results and explanations for the deterministic-only implementation are superseded.
+- Population activation still need not be monotone in the cap because releasing motors changes their later binding opportunities and population allocation; no general direction of effect is assumed.
 
 ## Notes
 
-- Fixed distance does not mean fixed travel time: stepping is stochastic and exclusion can cause stalls. Motors release at the cutoff instead of becoming permanent obstacles.
+- Only this condition was rerun for the correction. Exact event records were collected during that run, avoiding a second replay. The other three simulation caches, object fluorescence, and GIFs were retained.
+- The prior implementation is recorded in Git history and explicitly marked as superseded in the analysis follow-up document.
 
 ## References
 
+- `../../protein_simulation/engine.py`: baseline stochastic release plus capped-step branch.
+- `../conditions_analysis/follow_up_questions.md`: clarified user definition and correction record.
 
 # permanent
 

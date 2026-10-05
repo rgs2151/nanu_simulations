@@ -19,13 +19,13 @@
       "events_sha256": "7391382f24bdd8b33960c4bb43d7882308d0f774c6db327c3365a001a680b704"
     },
     "motor": {
-      "source_cache_sha256": "6248e229a68ae88c4d142e9fbb9b00ad003d0393761929d6367b432254f42610",
-      "source_manifest_sha256": "fbbb46a0979fa88ca7f82d860b4579a200ab9433bb21798925d5c3225ce04506",
-      "engine_sha256": "6ec413f65fc7a92a091dcab570ed41bddba78e9e32035573e5dcba8b000f6ff9",
+      "source_cache_sha256": "70d3ecf253d437988caac19c5d9d1b9e106b4fb05dc79b556d0e2ecfc7a08f89",
+      "source_manifest_sha256": "9424288c153a5b405d9206a789eb25ad7a0e457c1d231a96e02568b8ce72c8c0",
+      "engine_sha256": "09e31392b93439067c039a9572da51849392e36122161168d253cfe9050ce921",
       "parameters_sha256": "443083a7afe1e4d73d5d1e189d551582cf2a036bb344b4f25287660019c8948b",
       "recorder_sha256": "4471195016424facce8f5ddab770629efe6f36f2f4819e3a3dd2c14d298c1a10",
       "numpy_version": "2.4.6",
-      "events_sha256": "ccd20eee493552bffc45050ee213aae55f2e4ad51ef35da34bac8fef8c004fae"
+      "events_sha256": "42886ae116377b74141e6d2e726bc68fb1ee286aa90dae0536182b9bf6e74a04"
     },
     "permanent": {
       "source_cache_sha256": "33fdb3a88afc620425088433a2b967565fa93bfea9e92534de362158272057ca",
@@ -60,9 +60,9 @@
       "ongoing_dark_to_lit": 16
     },
     "motor": {
-      "completed_dwell": 1455,
-      "ongoing_dwell": 38,
-      "completed_dark_to_lit": 42,
+      "completed_dwell": 1634,
+      "ongoing_dwell": 39,
+      "completed_dark_to_lit": 41,
       "ongoing_dark_to_lit": 9
     },
     "permanent": {
@@ -72,7 +72,7 @@
       "ongoing_dark_to_lit": 3
     }
   },
-  "plot_sha256": "75612ab07b22d02db11127fba6afa565d09f5c6fe23f1da314d89e92dcb1b13c",
+  "plot_sha256": "20753af8bd10b5d956446fa13a5d030deedcd4ee542ed0413ed1d38ed898e905",
   "confidence_intervals": false,
   "realizations_per_condition": 1,
   "time_unit": "s",
@@ -119,23 +119,9 @@
       "integration_states": 32001
     },
     "motor": {
-      "exact_trajectory_match": {
-        "starts": true,
-        "directions": true,
-        "lengths": true,
-        "site_counts": true,
-        "offsets": true,
-        "spacing": true,
-        "body_sites": true,
-        "permanent": true,
-        "times": true,
-        "on": true,
-        "motor_track": true,
-        "motor_position": true,
-        "run_lengths": true
-      },
-      "completed_dwell_episodes": 1455,
-      "ongoing_dwell_episodes": 38,
+      "recorded_during_source_simulation": true,
+      "completed_dwell_episodes": 1634,
+      "ongoing_dwell_episodes": 39,
       "integration_states": 32001
     },
     "permanent": {
