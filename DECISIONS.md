@@ -4,7 +4,7 @@ Record only durable choices shared across analyses here. Unit-specific parameter
 
 ## Project and package identity
 
-- Repository: `Nano_Simulations`.
+- Repository: `nanu_simulations`.
 - Package display name: Protein Simulation.
 - Python distribution and Conda environment: `protein-simulation`.
 - Python import: `protein_simulation`.
@@ -13,4 +13,5 @@ Record only durable choices shared across analyses here. Unit-specific parameter
 ## Scientific scope
 
 - The workspace supports protein and molecular motor simulation research.
-- No model, physical parameter values, simulation engine, dataset, or scientific hypothesis has been selected. Define these in the appropriate unit before scientific work begins.
+- The professor’s DNA-rail transport notebook is preserved as reference material under `ref/`. Its model and defaults are a starting point for discussion, not validated project-wide scientific choices.
+- No research dataset has been supplied. Record adopted model assumptions and parameters in the appropriate compact unit before scientific work begins.

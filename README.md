@@ -1,8 +1,8 @@
-# Nano_Simulations
+# nanu_simulations
 
 Research workspace for protein and molecular motor simulations, with reproducible analysis units and figure outputs.
 
-The Python package is **Protein Simulation**: installable as `protein-simulation`, imported as `protein_simulation`. No scientific model or research dataset has been selected yet.
+The Python package is **Protein Simulation**: installable as `protein-simulation`, imported as `protein_simulation`. The professor’s DNA-rail transport notebook is preserved in `ref/`; see [the reference guide](ref/README.md) for its model, saved outputs, and limitations. No research dataset has been supplied.
 
 ## Setup
 
