@@ -1,0 +1,18 @@
+﻿Independent variable,Baseline,Cutter ignores motor position,Motor run length capped,Random permanent sites,Unit / scope
+# motors,40,40,40,40,transporters
+# tracks,50,50,50,50,tracks
+Brightness of motor,1.0; uniform 0.9–1.1,1.0; uniform 0.9–1.1,1.0; uniform 0.9–1.1,1.0; uniform 0.9–1.1,"Relative fluorescence units; sampled once per motor; same individual brightness values across conditions; illustrative, not experimentally calibrated"
+Brightness of track,0.12; uniform 0.108–0.132,0.12; uniform 0.108–0.132,0.12; uniform 0.108–0.132,0.12; uniform 0.108–0.132,"Relative fluorescence units; sampled once per track; same individual brightness values across conditions; illustrative, not experimentally calibrated"
+Length of track,13.79924,13.79924,13.79924,13.79924,µm; realized mean across 50 tracks; same lengths in all conditions; range 7.896–20.398 µm
+# temporary sites,48583,48583,48583,48583,sites across all tracks; 550–1443 per track; counts unchanged by permanent-site arrangement
+# permanent sites,15,15,15,15,sites per track; exactly 750 total in each condition; random placement uses distinct sites without replacement
+Cutter concentration,1.0,1.0,1.0,1.0,Relative reference concentration units; conversion to enzyme-stock % v/v is not calibrated; erasure coefficient 0.0008 s⁻¹ per reference unit; unprotected ON temporary-site erasure probability 0.0004 per 0.5 s step
+Motor speed,0.01,0.01,0.01,0.01,µm/s; mean unblocked speed
+Position of permanent site,Upstream end; clustered,Upstream end; clustered,Upstream end; clustered,Random normal-weighted; across track,"Position along track; random condition samples 15 distinct sites with weights centered at normalized position 0.5 and SD 0.3, restricted to track boundaries; not uniform"
+Motor run length,20.0,20.0,20.0,20.0,"µm; nominal stochastic run-length parameter, not measured mean travel distance; baseline ON-dependent early release applies in all four conditions"
+Maximum motor run distance,No added cap,No added cap,4.998,No added cap,µm per binding episode; motor condition adds a maximum of 357 forward steps at 0.014 µm/step; early stochastic release and track-end release remain active; no guaranteed minimum
+Motor size,0.4,0.4,0.4,0.4,µm nominal; discretized to 29 sites / 0.406 µm in all conditions
+p(binding | temp),1.0,1.0,1.0,1.0,Unitless (0–1); conditional on encountering an ON temporary site
+p(binding | permanent),1.0,1.0,1.0,1.0,Unitless (0–1); conditional on encountering a permanent site
+p(motor | ON temp site),1.0,1.0,1.0,1.0,Unitless (0–1); probability the motor switches its advancing leading site ON
+Motor protection from cutter,Protected,Not protected,Protected,Protected,Occupied temporary ON sites are protected except in the cutter condition; permanent sites cannot be switched OFF in any condition
